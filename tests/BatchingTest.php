@@ -40,9 +40,7 @@
      expect(CountAccumulator::$count)->toBe(2);
  });
 
- class TestQueuedEvent implements ShouldQueue
- {
- }
+ class TestQueuedEvent implements ShouldQueue {}
 
  class TestQueuedListener implements ShouldQueue
  {
@@ -73,9 +71,7 @@
      expect(TestQueuedListener::$handled)->toBeTrue();
  });
 
- class NonQueuedEvent
- {
- }
+ class NonQueuedEvent {}
  class NonQueuedListener
  {
      public static int $count = 0;
@@ -107,9 +103,7 @@
      );
  });
 
- class ShouldQueueEvent implements ShouldQueue
- {
- }
+ class ShouldQueueEvent implements ShouldQueue {}
  class ConditionallyQueuedListener implements ShouldQueue
  {
      public static bool $handled = false;
@@ -173,9 +167,7 @@
                  $this->delay = $d;
                  return $this;
              }
-             public function handle()
-             {
-             }
+             public function handle() {}
          };
 
          $job->onConnection('sqs')->onQueue('high')->delay(5);
