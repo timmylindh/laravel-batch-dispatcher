@@ -1,0 +1,17 @@
+<?php
+
+return [
+    'enabled' => env('BATCH_DISPATCHER_ENABLED', true),
+
+    // In testing, avoid serializing jobs and run the wrapper immediately for assertions
+    'synchronous_testing' => env(
+        'BATCH_DISPATCHER_SYNC_TESTING',
+        app()->environment('testing'),
+    ),
+
+    // Maximum number of buffered items (jobs + queued listeners + queued events)
+    // per wrapper job. When exceeded, multiple wrapper jobs will be dispatched.
+    'max_batch_size' => env('BATCH_DISPATCHER_MAX_SIZE', 10),
+
+    'enable_middleware' => env('BATCH_DISPATCHER_ENABLE_MIDDLEWARE', true),
+];
