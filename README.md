@@ -69,6 +69,10 @@ return [
 ];
 ```
 
+### Middleware
+
+Setting `enable_middleware = true` will automatically apply the batching to the `api` and `web` middleware groups. You can apply the batching to specific routes or groups by adding the `BatchRequests` middleware.
+
 ### Notes
 
 - Only instances of jobs implementing `ShouldQueue` and queued event listeners are batched.
