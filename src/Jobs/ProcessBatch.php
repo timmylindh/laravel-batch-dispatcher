@@ -20,6 +20,8 @@ class ProcessBatch implements ShouldQueue
         SerializesModels,
         Batchable;
 
+    public $tries = 1;
+
     /** @var array<int, array{0: object, 1: array{connection: string|null, queue: string|null, delay: mixed}}> */
     public array $jobs;
 
