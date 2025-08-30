@@ -57,37 +57,29 @@ class LaravelBatchDispatcherServiceProvider extends ServiceProvider
         // If something resolved earlier, enforce our dispatcher consistently
         $this->app->extend(
             ConcreteBusDispatcher::class,
-            fn($dispatcher, $app) => when(
-                $dispatcher instanceof BatchingDispatcher,
-                $dispatcher,
-                fn() => $app->make(BatchingDispatcher::class),
-            ),
+            fn($dispatcher, $app) => $dispatcher instanceof BatchingDispatcher
+                ? $dispatcher
+                : $app->make(BatchingDispatcher::class),
         );
         $this->app->extend(
             BusDispatcherContract::class,
-            fn($dispatcher, $app) => when(
-                $dispatcher instanceof BatchingDispatcher,
-                $dispatcher,
-                fn() => $app->make(BatchingDispatcher::class),
-            ),
+            fn($dispatcher, $app) => $dispatcher instanceof BatchingDispatcher
+                ? $dispatcher
+                : $app->make(BatchingDispatcher::class),
         );
         $this->app->extend(
             'bus',
-            fn($dispatcher, $app) => when(
-                $dispatcher instanceof BatchingDispatcher,
-                $dispatcher,
-                fn() => $app->make(ConcreteBusDispatcher::class),
-            ),
+            fn($dispatcher, $app) => $dispatcher instanceof BatchingDispatcher
+                ? $dispatcher
+                : $app->make(BatchingDispatcher::class),
         );
 
         // Bind our event dispatcher that can capture queued events during batching
         $this->app->extend(
             EventsDispatcherContract::class,
-            fn($dispatcher, $app) => when(
-                $dispatcher instanceof BatchEventDispatcher,
-                $dispatcher,
-                fn() => $app->make(BatchEventDispatcher::class),
-            ),
+            fn($dispatcher, $app) => $dispatcher instanceof BatchEventDispatcher
+                ? $dispatcher
+                : $app->make(BatchEventDispatcher::class),
         );
     }
 
