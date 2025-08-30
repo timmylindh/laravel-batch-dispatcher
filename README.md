@@ -1,13 +1,11 @@
 # laravel-batch-dispatcher
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/timmylindh/laravel-beanstalk-worker.svg?style=flat-square)](https://packagist.org/packages/timmylindh/laravel-beanstalk-worker)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/timmylindh/laravel-beanstalk-worker/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/timmylindh/laravel-beanstalk-worker/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/timmylindh/laravel-beanstalk-worker/check-code-formatting.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/timmylindh/laravel-beanstalk-worker/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/timmylindh/laravel-beanstalk-worker.svg?style=flat-square)](https://packagist.org/packages/timmylindh/laravel-beanstalk-worker)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/timmylindh/laravel-batch-dispatcher.svg?style=flat-square)](https://packagist.org/packages/timmylindh/laravel-batch-dispatcher)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/timmylindh/laravel-batch-dispatcher/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/timmylindh/laravel-batch-dispatcher/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/timmylindh/laravel-batch-dispatcher/check-code-formatting.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/timmylindh/laravel-batch-dispatcher/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/timmylindh/laravel-batch-dispatcher.svg?style=flat-square)](https://packagist.org/packages/timmylindh/laravel-batch-dispatcher)
 
 Batch queued jobs and queued event listeners into a single queued job. This reduces the number of queue requests by capturing multiple dispatches and sending them as one job that processes all items.
-
-The package supports all Laravel queue and cron features, such as retries, backoff, delay, release, max tries, timeout, etc.
 
 ## Installation
 
@@ -47,10 +45,27 @@ The batching behavior is controlled by `config/batch-dispatcher.php`:
 
 ```php
 return [
-    'enabled' => env('BATCH_DISPATCHER_ENABLED', true),
+  "enabled" => env("BATCH_DISPATCHER_ENABLED", true),
 
-    // In testing, run the wrapper synchronously so assertions are easy
-    'synchronous_testing' => env('BATCH_DISPATCHER_SYNC_TESTING', app()->environment('testing')),
+  /**
+   * In testing, avoid serializing jobs and run the wrapper immediately for assertions
+   */
+  "synchronous_testing" => env(
+    "BATCH_DISPATCHER_SYNC_TESTING",
+    app()->environment("testing")
+  ),
+
+  /**
+   * Maximum number of buffered items (jobs + queued listeners + queued events)
+   * per wrapper job. When exceeded, multiple wrapper jobs will be dispatched.
+   */
+  "max_batch_size" => env("BATCH_DISPATCHER_MAX_SIZE", 10),
+
+  /**
+   * Enable the middleware to batch the requests.
+   * Otherwise you will have to manually wrap the requests in the middleware.
+   */
+  "enable_middleware" => env("BATCH_DISPATCHER_ENABLE_MIDDLEWARE", true),
 ];
 ```
 
