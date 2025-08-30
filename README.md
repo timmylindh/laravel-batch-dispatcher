@@ -56,14 +56,14 @@ return [
   ),
 
   /**
-   * Maximum number of buffered items (jobs + queued listeners + queued events)
+   * Maximum number of buffered items (jobs + queued listeners)
    * per wrapper job. When exceeded, multiple wrapper jobs will be dispatched.
    */
   "max_batch_size" => env("BATCH_DISPATCHER_MAX_SIZE", 10),
 
   /**
    * Enable the middleware to batch the requests.
-   * Otherwise you will have to manually wrap the requests in the middleware.
+   * Otherwise you will have to manually wrap the routes in the middleware.
    */
   "enable_middleware" => env("BATCH_DISPATCHER_ENABLE_MIDDLEWARE", true),
 ];
