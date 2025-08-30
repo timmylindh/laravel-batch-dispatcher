@@ -8,7 +8,7 @@ return [
      */
     'synchronous_testing' => env(
         'BATCH_DISPATCHER_SYNC_TESTING',
-        app()->environment('testing'),
+        env('APP_ENV') === 'testing',
     ),
 
     /**
